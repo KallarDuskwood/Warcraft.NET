@@ -32,6 +32,14 @@ namespace Warcraft.NET.Files.ADT.Terrain.WoD
         public MFBO BoundingBox { get; set; }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="Wotlk.Terrain"/> class.
+        /// </summary>
+        /// <param name="file">The file path</param>
+        public TerrainRoot(string file) : base(file)
+        {
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="WoD.TerrainRoot"/> class.
         /// </summary>
         /// <param name="inData">The binary data.</param>

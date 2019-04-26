@@ -83,6 +83,14 @@ namespace Warcraft.NET.Files.ADT.Terrain.Wotlk
         /// <summary>
         /// Initializes a new instance of the <see cref="Wotlk.Terrain"/> class.
         /// </summary>
+        /// <param name="file">The file path</param>
+        public Terrain(string file) : base(file)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Wotlk.Terrain"/> class.
+        /// </summary>
         /// <param name="inData">The binary data.</param>
         public Terrain(byte[] inData) : base(inData)
         {

@@ -7,6 +7,14 @@ namespace Warcraft.NET.Files.ADT.Terrain.Legion
     public class TerrainTex1 : TerrainTex1WoD
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="Legion.Terrain"/> class.
+        /// </summary>
+        /// <param name="file">The file path</param>
+        public TerrainTex1(string file) : base(file)
+        {
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Legion.TerrainTex1"/> class.
         /// </summary>
         /// <param name="inData">The binary data.</param>

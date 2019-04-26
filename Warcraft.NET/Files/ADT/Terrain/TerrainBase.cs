@@ -20,6 +20,15 @@ namespace Warcraft.NET.Files.ADT.Terrain
         /// <summary>
         /// Initializes a new instance of the <see cref="TerrainBase"/> class.
         /// </summary>
+        /// <param name="file">The file path.</param>
+        public TerrainBase(string file)
+        {
+            LoadBinaryData(File.ReadAllBytes(file));
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TerrainBase"/> class.
+        /// </summary>
         /// <param name="inData">The binary data.</param>
         public TerrainBase(byte[] inData)
         {

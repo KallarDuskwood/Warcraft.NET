@@ -5,7 +5,15 @@ using TerrainRootWoD = Warcraft.NET.Files.ADT.Terrain.WoD.TerrainRoot;
 namespace Warcraft.NET.Files.ADT.Terrain.Legion
 {
     public class TerrainRoot : TerrainRootWoD
-    {       
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Legion.Terrain"/> class.
+        /// </summary>
+        /// <param name="file">The file path</param>
+        public TerrainRoot(string file) : base(file)
+        {
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Legion.TerrainRoot"/> class.
         /// </summary>

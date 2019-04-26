@@ -40,6 +40,14 @@ namespace Warcraft.NET.Files.ADT.Terrain.WoD
         /// </summary>
         [ChunkOrder(7)]
         public MODF WorldModelObjectPlacementInfo { get; set; }
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WoD.Terrain"/> class.
+        /// </summary>
+        /// <param name="file">The file path</param>
+        public TerrainObj1(string file) : base(file)
+        {
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="WoD.TerrainObj1"/> class.

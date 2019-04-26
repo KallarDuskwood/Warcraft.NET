@@ -6,6 +6,14 @@ namespace Warcraft.NET.Files.ADT.Terrain.WoD
     public class TerrainTex2 : TerrainTex1
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="WoD.Terrain"/> class.
+        /// </summary>
+        /// <param name="file">The file path</param>
+        public TerrainTex2(string file) : base(file)
+        {
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="WoD.TerrainTex2"/> class.
         /// </summary>
         /// <param name="inData">The binary data.</param>
