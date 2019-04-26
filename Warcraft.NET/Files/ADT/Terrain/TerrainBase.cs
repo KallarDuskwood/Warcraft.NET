@@ -73,10 +73,10 @@ namespace Warcraft.NET.Files.ADT.Terrain
                     }
                     catch (TargetInvocationException ex)
                     {
-                        bool chuckIsOptional = ((ChunkOptionalAttribute)chunkPropertie.GetCustomAttribute(typeof(ChunkOptionalAttribute), false)).Optional;
+                        ChunkOptionalAttribute chuckIsOptional = (ChunkOptionalAttribute)chunkPropertie.GetCustomAttribute(typeof(ChunkOptionalAttribute), false);
 
                         // If chunk is not optional throw the exception
-                        if (ex.InnerException.GetType() != typeof(ChunkSignatureNotFoundException) || !chuckIsOptional)
+                        if (ex.InnerException.GetType() != typeof(ChunkSignatureNotFoundException) || chuckIsOptional == null || !chuckIsOptional.Optional)
                         {
                             throw ex.InnerException;
                         }
@@ -119,7 +119,6 @@ namespace Warcraft.NET.Files.ADT.Terrain
                         .MakeGenericMethod(chunkPropertie.PropertyType)
                         .Invoke(null, new[] { bw, chunkPropertie.GetValue(this) });
                     }
-
                 }
 
                 return ms.ToArray();

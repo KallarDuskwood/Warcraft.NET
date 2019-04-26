@@ -137,6 +137,19 @@ namespace Warcraft.NET.Extensions
                 A = reader.ReadByte()
             };
         }
+      
+        /// Reads ab 4.byte <see cref="UVMapEntry"/> from the data stream.
+        /// </summary>
+        /// <param name="binaryReader">The reader.</param>
+        /// <returns>The UV map entry.</returns>
+        public static UVMapEntry ReadUVMapEntry(this BinaryReader binaryReader)
+        {
+            return new UVMapEntry
+            {
+                X = binaryReader.ReadUInt16(),
+                Y = binaryReader.ReadUInt16()
+            };
+        }
 
         /// <summary>
         /// Reads a 4-byte RIFF chunk signature from the data stream.
@@ -284,6 +297,16 @@ namespace Warcraft.NET.Extensions
             binaryWriter.Write(color.G);
             binaryWriter.Write(color.B);
             binaryWriter.Write(color.A);
+        }
+              
+        /// Writes an 4-byte <see cref="UVMapEntry"/> to the data stream.
+        /// </summary>
+        /// <param name="binaryWriter">The current <see cref="BinaryWriter"/> object.</param>
+        /// <param name="uvMapEntry">The UV map entry to write.</param>
+        public static void WriteUVMapEntry(this BinaryWriter binaryWriter, UVMapEntry uvMapEntry)
+        {
+            binaryWriter.Write(uvMapEntry.X);
+            binaryWriter.Write(uvMapEntry.Y);
         }
 
         /// <summary>
