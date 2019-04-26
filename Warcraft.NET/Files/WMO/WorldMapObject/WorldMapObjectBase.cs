@@ -84,7 +84,6 @@ namespace Warcraft.NET.Files.WMO.WorldMapObject
             using (var ms = new MemoryStream())
             using (var bw = new BinaryWriter(ms))
             {
-
                 return ms.ToArray();
             }
         }
