@@ -40,21 +40,21 @@ namespace Warcraft.NET.Files.WMO.WorldMapObject
                     .GetProperties()
                     .OrderBy(p => ((ChunkOrderAttribute)p.GetCustomAttributes(typeof(ChunkOrderAttribute), false).Single()).Order);
 
-                foreach (PropertyInfo chunkPropertie in terrainChunkProperties)
+                foreach (PropertyInfo chunkProperty in terrainChunkProperties)
                 {
                     try
                     {
                         var chunk = (IIFFChunk)br
                         .GetType()
                         .GetExtensionMethod(Assembly.GetExecutingAssembly(), "ReadIFFChunk")
-                        .MakeGenericMethod(chunkPropertie.PropertyType)
+                        .MakeGenericMethod(chunkProperty.PropertyType)
                         .Invoke(null, new[] { br });
 
-                        chunkPropertie.SetValue(this, chunk);
+                        chunkProperty.SetValue(this, chunk);
                     }
                     catch (TargetInvocationException ex)
                     {
-                        var chuckIsOptional = (ChunkOptionalAttribute)chunkPropertie.GetCustomAttribute(typeof(ChunkOptionalAttribute), false);
+                        var chuckIsOptional = (ChunkOptionalAttribute)chunkProperty.GetCustomAttribute(typeof(ChunkOptionalAttribute), false);
 
                         // If chunk is not optional throw the exception
                         if (ex.InnerException.GetType() != typeof(ChunkSignatureNotFoundException) || chuckIsOptional == null || !chuckIsOptional.Optional)
@@ -84,22 +84,7 @@ namespace Warcraft.NET.Files.WMO.WorldMapObject
             using (var ms = new MemoryStream())
             using (var bw = new BinaryWriter(ms))
             {
-                var terrainChunkProperties = GetType()
-                    .GetProperties()
-                    .OrderBy(p => ((ChunkOrderAttribute)p.GetCustomAttributes(typeof(ChunkOrderAttribute), false).Single()).Order);
 
-                foreach (PropertyInfo chunkPropertie in terrainChunkProperties)
-                {
-                    var chunk = (IIFFChunk)chunkPropertie.GetValue(this);
-                    if (chunk != null)
-                    {
-                        bw
-                        .GetType()
-                        .GetExtensionMethod(Assembly.GetExecutingAssembly(), "WriteIFFChunk")
-                        .MakeGenericMethod(chunkPropertie.PropertyType)
-                        .Invoke(null, new[] { bw, chunkPropertie.GetValue(this) });
-                    }
-                }
                 return ms.ToArray();
             }
         }

@@ -123,6 +123,22 @@ namespace Warcraft.NET.Extensions
         }
 
         /// <summary>
+        /// Reads a 4-byte <see cref="RGBA"/> structure from the data stream.
+        /// </summary>
+        /// <param name="reader">The reader.</param>
+        /// <returns>The color.</returns>
+        public static RGBA ReadRGBA(this BinaryReader reader)
+        {
+            return new RGBA
+            {
+                R = reader.ReadByte(),
+                G = reader.ReadByte(),
+                B = reader.ReadByte(),
+                A = reader.ReadByte()
+            };
+        }
+
+        /// <summary>
         /// Reads a 4-byte RIFF chunk signature from the data stream.
         /// </summary>
         /// <param name="binaryReader">The reader.</param>
@@ -255,6 +271,19 @@ namespace Warcraft.NET.Extensions
                     binaryWriter.Write(shortPlane.Coordinates[y][x]);
                 }
             }
+        }
+
+        /// <summary>
+        /// Writes a 4-byte <see cref="RGBA"/> to the data stream.
+        /// </summary>
+        /// <param name="binaryWriter"></param>
+        /// <param name="color"></param>
+        public static void WriteRGBA(this BinaryWriter binaryWriter, RGBA color)
+        {
+            binaryWriter.Write(color.R);
+            binaryWriter.Write(color.G);
+            binaryWriter.Write(color.B);
+            binaryWriter.Write(color.A);
         }
 
         /// <summary>
