@@ -3,6 +3,7 @@ using System.IO;
 using Warcraft.NET.Extensions;
 using Warcraft.NET.Files.Interfaces;
 using Warcraft.NET.Files.Structures;
+using Warcraft.NET.Files.WMO.Flags.Wotlk;
 
 namespace Warcraft.NET.Files.WMO.Chunks.Wotlk
 {
@@ -69,7 +70,7 @@ namespace Warcraft.NET.Files.WMO.Chunks.Wotlk
         /// <summary>
         /// Gets or sets the WMO flags.
         /// </summary>
-        public ushort Flags { get; set; }
+        public MOHDFlags Flags { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MOHD"/> class.
@@ -96,7 +97,7 @@ namespace Warcraft.NET.Files.WMO.Chunks.Wotlk
         /// <inheritdoc/>
         public uint GetSize()
         {
-            return (sizeof(uint) * 8) + (sizeof(byte) * 4) + (sizeof(float) * 6) + sizeof(ushort);
+            return (uint)Serialize().Length;
         }
 
         /// <inheritdoc/>
@@ -115,7 +116,7 @@ namespace Warcraft.NET.Files.WMO.Chunks.Wotlk
                 Color = br.ReadRGBA();
                 WMOId = br.ReadUInt32();
                 BoundingBox = br.ReadBoundingBox();
-                Flags = br.ReadUInt16();
+                Flags = (MOHDFlags)br.ReadUInt16();
             }
         }
 
@@ -135,7 +136,7 @@ namespace Warcraft.NET.Files.WMO.Chunks.Wotlk
                 bw.WriteRGBA(Color);
                 bw.Write(WMOId);
                 bw.WriteBoundingBox(BoundingBox);
-                bw.Write(Flags);
+                bw.Write((ushort)Flags);
                 return ms.ToArray();
             }
         }

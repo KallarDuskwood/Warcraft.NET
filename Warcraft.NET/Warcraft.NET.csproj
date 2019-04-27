@@ -12,6 +12,8 @@
   <ItemGroup>
     <Folder Include="Files\WMO\Chunks\BfA\" />
     <Folder Include="Files\WMO\Chunks\WoD\" />
+    <Folder Include="Files\WMO\Flags\BfA\" />
+    <Folder Include="Files\WMO\Flags\WoD\" />
   </ItemGroup>
 
 </Project>
