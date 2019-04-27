@@ -1,5 +1,6 @@
 ﻿using Warcraft.NET.Attribute;
 using Warcraft.NET.Files.WMO.Chunks;
+using Warcraft.NET.Files.WMO.Chunks.BfA;
 using Warcraft.NET.Files.WMO.Chunks.Legion;
 
 namespace Warcraft.NET.Files.WMO.WorldMapObject.BfA
@@ -13,7 +14,7 @@ namespace Warcraft.NET.Files.WMO.WorldMapObject.BfA
         public MOHD Header { get; set; }
 
         /// <summary>
-        /// Gets or sets WMO textures.
+        /// Gets or sets textures.
         /// Starting with 8.1, MOTX is no longer used.
         /// The texture references in MOMT are file data ids directly.
         /// As of that version, there is a fallback mode though and some files still use MOTX for sake of avoiding re-export.
@@ -21,6 +22,12 @@ namespace Warcraft.NET.Files.WMO.WorldMapObject.BfA
         /// </summary>
         [ChunkOrder(3), ChunkOptional]
         public MOTX Textures { get; set; }
+
+        /// <summary>
+        /// Gets or sets the materials.
+        /// </summary>
+        [ChunkOrder(4)]
+        public MOMT Materials { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Legion.WorldMapObjectRoot"/> class.

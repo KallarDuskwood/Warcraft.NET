@@ -19,6 +19,12 @@ namespace Warcraft.NET.Files.WMO.WorldMapObject.Wotlk
         public MOTX Textures { get; set; }
 
         /// <summary>
+        /// Gets or sets the materials.
+        /// </summary>
+        [ChunkOrder(4)]
+        public MOMT Materials { get; set; }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Wotlk.WorldMapObjectRoot"/> class.
         /// </summary>
         /// <param name="inData">The binary data.</param>

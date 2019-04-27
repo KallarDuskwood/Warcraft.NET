@@ -137,7 +137,23 @@ namespace Warcraft.NET.Extensions
                 A = reader.ReadByte()
             };
         }
-      
+
+        /// <summary>
+        /// Reads a 4-byte <see cref="RGBA"/> structure from the data stream.
+        /// </summary>
+        /// <param name="reader">The reader.</param>
+        /// <returns>The color.</returns>
+        public static RGBA ReadBGRA(this BinaryReader reader)
+        {
+            return new RGBA
+            {
+                B = reader.ReadByte(),
+                G = reader.ReadByte(),
+                R = reader.ReadByte(),
+                A = reader.ReadByte()
+            };
+        }
+
         /// Reads ab 4.byte <see cref="UVMapEntry"/> from the data stream.
         /// </summary>
         /// <param name="binaryReader">The reader.</param>
@@ -298,7 +314,20 @@ namespace Warcraft.NET.Extensions
             binaryWriter.Write(color.B);
             binaryWriter.Write(color.A);
         }
-              
+
+        /// <summary>
+        /// Writes a 4-byte <see cref="RGBA"/> to the data stream.
+        /// </summary>
+        /// <param name="binaryWriter"></param>
+        /// <param name="color"></param>
+        public static void WriteBGRA(this BinaryWriter binaryWriter, RGBA color)
+        {
+            binaryWriter.Write(color.B);
+            binaryWriter.Write(color.G);
+            binaryWriter.Write(color.R);
+            binaryWriter.Write(color.A);
+        }
+
         /// Writes an 4-byte <see cref="UVMapEntry"/> to the data stream.
         /// </summary>
         /// <param name="binaryWriter">The current <see cref="BinaryWriter"/> object.</param>
