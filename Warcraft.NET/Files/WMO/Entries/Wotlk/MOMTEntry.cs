@@ -91,7 +91,6 @@ namespace Warcraft.NET.Files.WMO.Entries.Wotlk
             LoadBinaryData(inData);
         }
 
-
         /// <inheritdoc/>
         public static int GetSize()
         {
