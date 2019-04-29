@@ -1,4 +1,5 @@
-﻿using Warcraft.NET.Attribute;
+﻿using System.IO;
+using Warcraft.NET.Attribute;
 using Warcraft.NET.Files.WMO.Chunks;
 using MOHD = Warcraft.NET.Files.WMO.Chunks.Legion.MOHD;
 using MOMT = Warcraft.NET.Files.WMO.Chunks.Wotlk.MOMT;
@@ -31,6 +32,21 @@ namespace Warcraft.NET.Files.WMO.WorldMapObject.Legion
         /// <param name="inData">The binary data.</param>
         public WorldMapObjectRoot(byte[] inData) : base(inData)
         {
+        }
+
+        /// <summary>
+        /// Serializes the current object into a byte array.
+        /// </summary>
+        /// <returns>The serialized object.</returns>
+        public override byte[] Serialize()
+        {
+            using (var ms = new MemoryStream())
+            using (var bw = new BinaryWriter(ms))
+            {
+                bw.Write(Version.Serialize());
+                bw.Write(Header.Serialize());
+                return ms.ToArray();
+            }
         }
     }
 }

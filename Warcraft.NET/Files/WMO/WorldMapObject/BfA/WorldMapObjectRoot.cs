@@ -1,4 +1,9 @@
-﻿using Warcraft.NET.Attribute;
+﻿using System.IO;
+using System.Linq;
+using System.Reflection;
+using Warcraft.NET.Attribute;
+using Warcraft.NET.Extensions;
+using Warcraft.NET.Files.Interfaces;
 using Warcraft.NET.Files.WMO.Chunks;
 using Warcraft.NET.Files.WMO.Chunks.BfA;
 using Warcraft.NET.Files.WMO.Chunks.Legion;
@@ -35,6 +40,37 @@ namespace Warcraft.NET.Files.WMO.WorldMapObject.BfA
         /// <param name="inData">The binary data.</param>
         public WorldMapObjectRoot(byte[] inData) : base(inData)
         {
+        }
+
+        /// <summary>
+        /// Serializes the current object into a byte array.
+        /// </summary>
+        /// <returns>The serialized object.</returns>
+        public override byte[] Serialize()
+        {
+            using (var ms = new MemoryStream())
+            using (var bw = new BinaryWriter(ms))
+            {
+                var terrainChunkProperties = GetType()
+                    .GetProperties()
+                    .OrderBy(p => ((ChunkOrderAttribute)p.GetCustomAttributes(typeof(ChunkOrderAttribute), false).Single()).Order);
+
+                foreach (PropertyInfo chunkPropertie in terrainChunkProperties)
+                {
+                    IIFFChunk chunk = (IIFFChunk)chunkPropertie.GetValue(this);
+
+                    if (chunk != null)
+                    {
+                        bw
+                        .GetType()
+                        .GetExtensionMethod(Assembly.GetExecutingAssembly(), "WriteIFFChunk")
+                        .MakeGenericMethod(chunkPropertie.PropertyType)
+                        .Invoke(null, new[] { bw, chunkPropertie.GetValue(this) });
+                    }
+                }
+
+                return ms.ToArray();
+            }
         }
     }
 }

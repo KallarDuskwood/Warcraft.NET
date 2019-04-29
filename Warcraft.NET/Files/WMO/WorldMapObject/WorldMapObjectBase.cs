@@ -79,13 +79,6 @@ namespace Warcraft.NET.Files.WMO.WorldMapObject
         /// Serializes the current object into a byte array.
         /// </summary>
         /// <returns>The serialized object.</returns>
-        public byte[] Serialize()
-        {
-            using (var ms = new MemoryStream())
-            using (var bw = new BinaryWriter(ms))
-            {
-                return ms.ToArray();
-            }
-        }
+        public abstract byte[] Serialize();
     }
 }

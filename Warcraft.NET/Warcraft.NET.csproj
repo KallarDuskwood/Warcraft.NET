@@ -11,6 +11,8 @@
 
   <ItemGroup>
     <Folder Include="Files\WMO\Chunks\WoD\" />
+    <Folder Include="Files\WMO\Entries\Legion\" />
+    <Folder Include="Files\WMO\Entries\WoD\" />
     <Folder Include="Files\WMO\Flags\BfA\" />
     <Folder Include="Files\WMO\Flags\WoD\" />
   </ItemGroup>
