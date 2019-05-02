@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Linq;
 using Warcraft.NET.Extensions;
 using Warcraft.NET.Files.Structures;
 using Warcraft.NET.Files.WMO.Flags;
@@ -143,6 +144,31 @@ namespace Warcraft.NET.Files.WMO.Entries.BfA
 
                 return ms.ToArray();
             }
+        }
+
+        public override bool Equals(object obj)
+        {
+            var item = obj as MOMTEntry;
+            if (item is null)
+                return false;
+            return this.Flags == item.Flags &&
+                   this.Shader == item.Shader &&
+                   this.BlendMode == item.BlendMode &&
+                   this.Texture1FileId == item.Texture1FileId &&
+                   this.SidnColor.Equals(item.SidnColor) &&
+                   this.FrameSidnColor.Equals(item.FrameSidnColor) &&
+                   this.Texture2FileId == item.Texture2FileId &&
+                   this.Texture2DiffuseColor.Equals(item.Texture2DiffuseColor) &&
+                   this.GroundType == item.GroundType &&
+                   this.Texture3FileId == item.Texture3FileId &&
+                   this.Texture3DiffuseColor.Equals(item.Texture3DiffuseColor) &&
+                   this.Texture3Flags == item.Texture3Flags &&
+                   this.RunTimeData.SequenceEqual(item.RunTimeData);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
     }
 }

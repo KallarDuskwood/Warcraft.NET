@@ -54,5 +54,20 @@
         {
             return $"R: {R}, G: {G}, B: {B}, A:{A}";
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is null)
+                return false;
+            if (this.GetType() != obj.GetType())
+                return false;
+            var color = (RGBA)obj;
+            return this.R == color.R && this.G == color.G && this.B == color.B && this.A == color.A;
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 }
