@@ -199,7 +199,8 @@ namespace Warcraft.NET.Extensions
 
             if (!reader.SeekChunk(chunk.GetSignature()))
             {
-                throw new ChunkSignatureNotFoundException($"Chuck \"{chunk.GetSignature()}\" not found.");
+                //throw new ChunkSignatureNotFoundException($"Chuck \"{chunk.GetSignature()}\" not found.");
+                return default(T);
             }
 
             string chunkSignature = reader.ReadBinarySignature();

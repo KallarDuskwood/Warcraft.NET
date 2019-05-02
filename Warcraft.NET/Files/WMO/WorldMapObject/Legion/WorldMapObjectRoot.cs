@@ -1,5 +1,9 @@
 ﻿using System.IO;
+using System.Linq;
+using System.Reflection;
 using Warcraft.NET.Attribute;
+using Warcraft.NET.Extensions;
+using Warcraft.NET.Files.Interfaces;
 using Warcraft.NET.Files.WMO.Chunks;
 using MOHD = Warcraft.NET.Files.WMO.Chunks.Legion.MOHD;
 using MOMT = Warcraft.NET.Files.WMO.Chunks.Wotlk.MOMT;
@@ -43,8 +47,24 @@ namespace Warcraft.NET.Files.WMO.WorldMapObject.Legion
             using (var ms = new MemoryStream())
             using (var bw = new BinaryWriter(ms))
             {
-                bw.Write(Version.Serialize());
-                bw.Write(Header.Serialize());
+                var terrainChunkProperties = GetType()
+                    .GetProperties()
+                    .OrderBy(p => ((ChunkOrderAttribute)p.GetCustomAttributes(typeof(ChunkOrderAttribute), false).Single()).Order);
+
+                foreach (PropertyInfo chunkPropertie in terrainChunkProperties)
+                {
+                    IIFFChunk chunk = (IIFFChunk)chunkPropertie.GetValue(this);
+
+                    if (chunk != null)
+                    {
+                        bw
+                        .GetType()
+                        .GetExtensionMethod(Assembly.GetExecutingAssembly(), "WriteIFFChunk")
+                        .MakeGenericMethod(chunkPropertie.PropertyType)
+                        .Invoke(null, new[] { bw, chunkPropertie.GetValue(this) });
+                    }
+                }
+
                 return ms.ToArray();
             }
         }

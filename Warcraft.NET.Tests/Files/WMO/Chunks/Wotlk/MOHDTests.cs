@@ -1,5 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Warcraft.NET.Tests.Files.WMO.WorldMapObject;
 
 namespace Warcraft.NET.Tests.Files.WMO.Chunks.Wotlk
 {
@@ -9,29 +8,29 @@ namespace Warcraft.NET.Tests.Files.WMO.Chunks.Wotlk
         [TestMethod]
         public void LoadBinaryData()
         {
-            Assert.AreEqual(WorldMapObjectRootTests.WotlkWMO.Header.Materials, WorldMapObjectRootTests.WotlkWrittenWMO.Header.Materials);
-            Assert.AreEqual(WorldMapObjectRootTests.WotlkWMO.Header.Portals, WorldMapObjectRootTests.WotlkWrittenWMO.Header.Portals);
-            Assert.AreEqual(WorldMapObjectRootTests.WotlkWMO.Header.Lights, WorldMapObjectRootTests.WotlkWrittenWMO.Header.Lights);
-            Assert.AreEqual(WorldMapObjectRootTests.WotlkWMO.Header.DoodadNames, WorldMapObjectRootTests.WotlkWrittenWMO.Header.DoodadNames);
-            Assert.AreEqual(WorldMapObjectRootTests.WotlkWMO.Header.DoodadDefinitions, WorldMapObjectRootTests.WotlkWrittenWMO.Header.DoodadDefinitions);
-            Assert.AreEqual(WorldMapObjectRootTests.WotlkWMO.Header.DoodadSets, WorldMapObjectRootTests.WotlkWrittenWMO.Header.DoodadSets);
-            Assert.AreEqual(WorldMapObjectRootTests.WotlkWMO.Header.Color, WorldMapObjectRootTests.WotlkWrittenWMO.Header.Color);
-            Assert.AreEqual(WorldMapObjectRootTests.WotlkWMO.Header.WMOId, WorldMapObjectRootTests.WotlkWrittenWMO.Header.WMOId);
-            Assert.AreEqual(WorldMapObjectRootTests.WotlkWMO.Header.BoundingBox, WorldMapObjectRootTests.WotlkWrittenWMO.Header.BoundingBox);
-            Assert.AreEqual(WorldMapObjectRootTests.WotlkWMO.Header.Flags, WorldMapObjectRootTests.WotlkWrittenWMO.Header.Flags);
-            Assert.AreEqual(WorldMapObjectRootTests.WotlkWMO.Header.Groups, WorldMapObjectRootTests.WotlkWrittenWMO.Header.Groups);
+            Assert.AreEqual(Tests.WotlkWMO.Header.Materials, Tests.WotlkWrittenWMO.Header.Materials);
+            Assert.AreEqual(Tests.WotlkWMO.Header.Portals, Tests.WotlkWrittenWMO.Header.Portals);
+            Assert.AreEqual(Tests.WotlkWMO.Header.Lights, Tests.WotlkWrittenWMO.Header.Lights);
+            Assert.AreEqual(Tests.WotlkWMO.Header.DoodadNames, Tests.WotlkWrittenWMO.Header.DoodadNames);
+            Assert.AreEqual(Tests.WotlkWMO.Header.DoodadDefinitions, Tests.WotlkWrittenWMO.Header.DoodadDefinitions);
+            Assert.AreEqual(Tests.WotlkWMO.Header.DoodadSets, Tests.WotlkWrittenWMO.Header.DoodadSets);
+            Assert.AreEqual(Tests.WotlkWMO.Header.Color, Tests.WotlkWrittenWMO.Header.Color);
+            Assert.AreEqual(Tests.WotlkWMO.Header.WMOId, Tests.WotlkWrittenWMO.Header.WMOId);
+            Assert.AreEqual(Tests.WotlkWMO.Header.BoundingBox, Tests.WotlkWrittenWMO.Header.BoundingBox);
+            Assert.AreEqual(Tests.WotlkWMO.Header.Flags, Tests.WotlkWrittenWMO.Header.Flags);
+            Assert.AreEqual(Tests.WotlkWMO.Header.Groups, Tests.WotlkWrittenWMO.Header.Groups);
         }
 
         [TestMethod]
         public void GetSignature()
         {
-            Assert.AreEqual(WorldMapObjectRootTests.WotlkWMO.Header.GetSignature(), WorldMapObjectRootTests.WotlkWrittenWMO.Header.GetSignature());
+            Assert.AreEqual(Tests.WotlkWMO.Header.GetSignature(), Tests.WotlkWrittenWMO.Header.GetSignature());
         }
 
         [TestMethod]
         public void GetSize()
         {
-            Assert.AreEqual(WorldMapObjectRootTests.WotlkWMO.Header.GetSize(), WorldMapObjectRootTests.WotlkWrittenWMO.Header.GetSize());
+            Assert.AreEqual(Tests.WotlkWMO.Header.GetSize(), Tests.WotlkWrittenWMO.Header.GetSize());
         }
     }
 }

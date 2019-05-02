@@ -5,10 +5,10 @@ using WoDWMO = Warcraft.NET.Files.WMO.WorldMapObject.WoD.WorldMapObjectRoot;
 using LegionWMO = Warcraft.NET.Files.WMO.WorldMapObject.Legion.WorldMapObjectRoot;
 using BfAWMO = Warcraft.NET.Files.WMO.WorldMapObject.BfA.WorldMapObjectRoot;
 
-namespace Warcraft.NET.Tests.Files.WMO.WorldMapObject
+namespace Warcraft.NET.Tests.Files
 {
     [TestClass]
-    public class WorldMapObjectRootTests
+    public class Tests
     {
         // Wotlk
         private static string WotlkWMOPath = @"Resources/WMO/prisonHQ_Redridge.wmo";
@@ -17,14 +17,14 @@ namespace Warcraft.NET.Tests.Files.WMO.WorldMapObject
         public static WotlkWMO WotlkWrittenWMO;
 
         // WoD
-        private static string WoDWMOPath = @"Resources/WMO/";
-        private static string WoDWrittenWMOPath = @"Resources/WMO/";
+        private static string WoDWMOPath = @"Resources/WMO/duskwood_lumbermill.wmo";
+        private static string WoDWrittenWMOPath = @"Resources/WMO/duskwood_lumbermill.new.wmo";
         public static WoDWMO WoDWMO;
         public static WoDWMO WoDWrittenWMO;
 
         // Legion
-        private static string LegionWMOPath = @"Resources/WMO/";
-        private static string LegionWrittenWMOPath = @"Resources/WMO/";
+        private static string LegionWMOPath = @"Resources/WMO/7du_violethold_trapdoor_transport.wmo";
+        private static string LegionWrittenWMOPath = @"Resources/WMO/7du_violethold_trapdoor_transport.new.wmo";
         public static LegionWMO LegionWMO;
         public static LegionWMO LegionWrittenWMO;
 
@@ -35,7 +35,7 @@ namespace Warcraft.NET.Tests.Files.WMO.WorldMapObject
         public static BfAWMO BfAWrittenWMO;
 
         [AssemblyInitialize]
-        public static void InitializeWorldMapObjectRootTests(TestContext tc)
+        public static void Initialize(TestContext tc)
         {
             // Wotlk
             var wmo1 = new WotlkWMO(File.ReadAllBytes(WotlkWMOPath));
@@ -44,16 +44,16 @@ namespace Warcraft.NET.Tests.Files.WMO.WorldMapObject
             WotlkWrittenWMO = new WotlkWMO(File.ReadAllBytes(WotlkWrittenWMOPath));
 
             // WoD
-            /*var wmo2 = new WoDWMO(File.ReadAllBytes(BfAWMOPath));
+            var wmo2 = new WoDWMO(File.ReadAllBytes(BfAWMOPath));
             WoDWMO = wmo2;
             File.WriteAllBytes(BfAWrittenWMOPath, wmo2.Serialize());
-            WoDWrittenWMO = new WoDWMO(File.ReadAllBytes(BfAWrittenWMOPath));*/
+            WoDWrittenWMO = new WoDWMO(File.ReadAllBytes(BfAWrittenWMOPath));
 
             // Legion
-            /*var wmo3 = new LegionWMO(File.ReadAllBytes(BfAWMOPath));
+            var wmo3 = new LegionWMO(File.ReadAllBytes(LegionWMOPath));
             LegionWMO = wmo3;
-            File.WriteAllBytes(BfAWrittenWMOPath, wmo3.Serialize());
-            LegionWrittenWMO = new LegionWMO(File.ReadAllBytes(BfAWrittenWMOPath));*/
+            File.WriteAllBytes(LegionWrittenWMOPath, wmo3.Serialize());
+            LegionWrittenWMO = new LegionWMO(File.ReadAllBytes(LegionWrittenWMOPath));
 
             // BfA
             var wmo4 = new BfAWMO(File.ReadAllBytes(BfAWMOPath));
