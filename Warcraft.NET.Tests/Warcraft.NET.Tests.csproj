@@ -5,7 +5,7 @@
 
     <IsPackable>false</IsPackable>
 
-    <StartupObject>Warcraft.NET.Tests.Program</StartupObject>
+    <StartupObject></StartupObject>
 
     <ApplicationIcon />
 

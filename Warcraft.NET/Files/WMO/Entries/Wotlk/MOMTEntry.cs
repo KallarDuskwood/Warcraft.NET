@@ -140,6 +140,7 @@ namespace Warcraft.NET.Files.WMO.Entries.Wotlk
                 bw.Write(Texture3Flags);
                 for (int i = 0; i < 4; i++)
                     bw.Write(RunTimeData[i]);
+
                 return ms.ToArray();
             }
         }

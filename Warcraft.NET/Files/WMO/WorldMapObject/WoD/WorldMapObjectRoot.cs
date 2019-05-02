@@ -7,7 +7,7 @@ using Warcraft.NET.Files.Interfaces;
 using Warcraft.NET.Files.WMO.Chunks;
 using Warcraft.NET.Files.WMO.Chunks.Wotlk;
 
-namespace Warcraft.NET.Files.WMO.WorldMapObject.Wotlk
+namespace Warcraft.NET.Files.WMO.WorldMapObject.WoD
 {
     public class WorldMapObjectRoot : WorldMapObjectRootBase
     {
@@ -30,14 +30,14 @@ namespace Warcraft.NET.Files.WMO.WorldMapObject.Wotlk
         public MOMT Materials { get; set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Wotlk.WorldMapObjectRoot"/> class.
+        /// Initializes a new instance of the <see cref="WoD.WorldMapObjectRoot"/> class.
         /// </summary>
         public WorldMapObjectRoot() : base()
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Wotlk.WorldMapObjectRoot"/> class.
+        /// Initializes a new instance of the <see cref="WoD.WorldMapObjectRoot"/> class.
         /// </summary>
         /// <param name="inData">The binary data.</param>
         public WorldMapObjectRoot(byte[] inData) : base(inData)

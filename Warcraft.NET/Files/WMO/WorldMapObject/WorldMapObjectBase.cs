@@ -20,6 +20,13 @@ namespace Warcraft.NET.Files.WMO.WorldMapObject
         /// <summary>
         /// Initializes a new instance of the <see cref="WorldMapObjectBase"/> class.
         /// </summary>
+        public WorldMapObjectBase()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WorldMapObjectBase"/> class.
+        /// </summary>
         /// <param name="inData">The binary data.</param>
         public WorldMapObjectBase(byte[] inData)
         {
