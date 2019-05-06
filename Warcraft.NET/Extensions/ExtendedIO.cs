@@ -77,6 +77,20 @@ namespace Warcraft.NET.Extensions
         }
 
         /// <summary>
+        /// Reads a 8-byte <see cref="Vector2"/> structure from the data stream and advances the position of the stream by
+        /// 8 bytes.
+        /// </summary>
+        /// <returns>The vector2f.</returns>
+        /// <param name="binaryReader">The reader.</param>
+        public static Vector2 ReadVector2(this BinaryReader binaryReader)
+        {
+            return new Vector2(
+                binaryReader.ReadSingle(),
+                binaryReader.ReadSingle()
+            );
+        }
+
+        /// <summary>
         /// Reads a 12-byte <see cref="Rotator"/> from the data stream and advances the position of the stream by
         /// 12 bytes.
         /// </summary>
@@ -387,6 +401,17 @@ namespace Warcraft.NET.Extensions
                 default:
                     throw new ArgumentOutOfRangeException(nameof(storeAs), storeAs, null);
             }
+        }
+
+        /// <summary>
+        /// Writes a 8-byte <see cref="Vector2"/> value to the data stream.
+        /// </summary>
+        /// <param name="binaryWriter">The current <see cref="BinaryWriter"/> object.</param>
+        /// <param name="vector">The Vector to write.</param>
+        public static void WriteVector2(this BinaryWriter binaryWriter, Vector2 vector)
+        {
+            binaryWriter.Write(vector.X);
+            binaryWriter.Write(vector.Y);
         }
         #endregion
 

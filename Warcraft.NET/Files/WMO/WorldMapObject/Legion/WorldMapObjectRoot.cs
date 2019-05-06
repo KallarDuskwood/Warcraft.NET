@@ -5,6 +5,7 @@ using Warcraft.NET.Attribute;
 using Warcraft.NET.Extensions;
 using Warcraft.NET.Files.Interfaces;
 using Warcraft.NET.Files.WMO.Chunks;
+using Warcraft.NET.Files.WMO.Chunks.Legion;
 using MOHD = Warcraft.NET.Files.WMO.Chunks.Legion.MOHD;
 using MOMT = Warcraft.NET.Files.WMO.Chunks.Wotlk.MOMT;
 
@@ -29,6 +30,12 @@ namespace Warcraft.NET.Files.WMO.WorldMapObject.Legion
         /// </summary>
         [ChunkOrder(4)]
         public MOMT Materials { get; set; }
+
+        /// <summary>
+        /// Gets or sets the material animations
+        /// </summary>
+        [ChunkOrder(5), ChunkOptional]
+        public MOUV MaterialAnimations { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Legion.WorldMapObjectRoot"/> class.

@@ -35,6 +35,12 @@ namespace Warcraft.NET.Files.WMO.WorldMapObject.BfA
         public MOMT Materials { get; set; }
 
         /// <summary>
+        /// Gets or sets the material animations
+        /// </summary>
+        [ChunkOrder(5), ChunkOptional]
+        public MOUV MaterialAnimations { get; set; }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Legion.WorldMapObjectRoot"/> class.
         /// </summary>
         /// <param name="inData">The binary data.</param>
