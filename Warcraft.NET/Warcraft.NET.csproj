@@ -10,6 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Files\M2\Chunks\Wotlk\" />
     <Folder Include="Files\WMO\Flags\BfA\" />
     <Folder Include="Files\WMO\Flags\WoD\" />
   </ItemGroup>
