@@ -187,7 +187,6 @@ namespace Warcraft.NET.Extensions
             return signature;
         }
 
-
         /// <summary>
         /// Reads an IFF-style chunk from the stream. The chunk must have the <see cref="IIFFChunk"/>
         /// interface, and implement a parameterless constructor.
@@ -367,7 +366,7 @@ namespace Warcraft.NET.Extensions
             if (writeAtEOF)
                 binaryWriter.Seek(0, SeekOrigin.End);
 
-            var serializedChunk = chunk.Serialize(binaryWriter.BaseStream.Position + sizeof(uint) * 2);
+            var serializedChunk = chunk.Serialize(binaryWriter.BaseStream.Position + (sizeof(uint) * 2));
 
             binaryWriter.WriteChunkSignature(chunk.GetSignature());
             binaryWriter.Write((uint)serializedChunk.Length);
