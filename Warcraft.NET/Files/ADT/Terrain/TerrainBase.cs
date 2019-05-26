@@ -98,7 +98,7 @@ namespace Warcraft.NET.Files.ADT.Terrain
         /// Serializes the current object into a byte array.
         /// </summary>
         /// <returns>The serialized object.</returns>
-        public byte[] Serialize()
+        public byte[] Serialize(long offset = 0)
         {
             using (var ms = new MemoryStream())
             using (var bw = new BinaryWriter(ms))
