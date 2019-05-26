@@ -67,7 +67,7 @@ namespace Warcraft.NET.Files.ADT.Terrain
                         .GetType()
                         .GetExtensionMethod(Assembly.GetExecutingAssembly(), "ReadIFFChunk")
                         .MakeGenericMethod(chunkPropertie.PropertyType)
-                        .Invoke(null, new[] { br });
+                        .Invoke(null, new object[] { br, false });
 
                         chunkPropertie.SetValue(this, chunk);
                     }
@@ -117,7 +117,7 @@ namespace Warcraft.NET.Files.ADT.Terrain
                         .GetType()
                         .GetExtensionMethod(Assembly.GetExecutingAssembly(), "WriteIFFChunk")
                         .MakeGenericMethod(chunkPropertie.PropertyType)
-                        .Invoke(null, new[] { bw, chunkPropertie.GetValue(this) });
+                        .Invoke(null, new object[] { bw, chunkPropertie.GetValue(this), false });
                     }
                 }
 
