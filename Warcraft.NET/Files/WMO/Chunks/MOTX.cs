@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Text;
 using Warcraft.NET.Extensions;
 using Warcraft.NET.Files.Interfaces;
 
@@ -16,9 +18,14 @@ namespace Warcraft.NET.Files.WMO.Chunks
         public const string Signature = "MOTX";
 
         /// <summary>
-        /// Gets a dictionary of the trxture offsets mapped to texture file pathes.
+        /// Gets a dictionary of the texture offsets mapped to texture file pathes.
         /// </summary>
         public Dictionary<long, string> Textures { get; } = new Dictionary<long, string>();
+
+        /// <summary>
+        /// Next texture offset
+        /// </summary>
+        protected long NextOffset = 4;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MOTX"/> class.
@@ -54,6 +61,8 @@ namespace Warcraft.NET.Files.WMO.Chunks
             using (var ms = new MemoryStream(inData))
             using (var br = new BinaryReader(ms))
             {
+                ms.Seek(4, SeekOrigin.Begin);
+
                 while (ms.Position < ms.Length)
                 {
                     if (ms.Position % 4 == 0)
@@ -61,24 +70,55 @@ namespace Warcraft.NET.Files.WMO.Chunks
                     else
                         ms.Position += 4 - (ms.Position % 4);
                 }
+
+                // Set next texture offset
+                NextOffset = ms.Position;
+                if (NextOffset % 4 != 0)
+                    NextOffset += 4 - (NextOffset % 4);
             }
         }
 
+        public long Add(string texture)
+        {
+            // Return stored texture offset
+            if (Textures.ContainsValue(texture))
+                return Textures.FirstOrDefault(t => t.Value == texture).Key;
+
+            // Set texture offset
+            long textureOffset = NextOffset;
+            Textures.Add(NextOffset, texture);
+
+            // Calc next offset
+            NextOffset += Encoding.ASCII.GetBytes(texture).LongLength + 1;
+            if (NextOffset % 4 != 0)
+                NextOffset += 4 - (NextOffset % 4);
+
+            // Return texture offset
+            return textureOffset;
+        }
+
         /// <inheritdoc/>
-        public byte[] Serialize()
+        public byte[] Serialize(long offset = 0)
         {
             using (var ms = new MemoryStream())
             using (var bw = new BinaryWriter(ms))
             {
+                // padding
+                for (var i = 0; i < 4; i++)
+                    bw.Write('\0');
+
                 foreach (var texture in Textures)
                 {
                     if (ms.Position % 4 == 0)
+                    {
                         bw.WriteNullTerminatedString(texture.Value);
+                    }
                     else
                     {
                         var stringPadCount = 4 - (ms.Position % 4);
                         for (var i = 0; i < stringPadCount; i++)
                             bw.Write('\0');
+
                         bw.WriteNullTerminatedString(texture.Value);
                     }
                 }
