@@ -18,7 +18,7 @@ namespace Warcraft.NET.Files.ADT.Chunks.Legion
         /// <summary>
         /// Gets or sets model extents.
         /// </summary>
-        public List<MLMDEntry> Entries { get; set; }
+        public List<MLMDEntry> Entries { get; set; } = new List<MLMDEntry>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MLMD"/> class.

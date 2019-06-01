@@ -16,22 +16,22 @@ namespace Warcraft.NET.Files.ADT.Chunks.Legion
         /// <summary>
         /// Gets or sets a M2 lod offsets.
         /// </summary>
-        public float[] M2LodOffset { get; set; } = new float[3];
+        public uint[] M2LodOffset { get; set; } = new uint[3];
 
         /// <summary>
         /// Gets or sets a M2 lod length.
         /// </summary>
-        public float[] M2LodLength { get; set; } = new float[3];
+        public uint[] M2LodLength { get; set; } = new uint[3];
 
         /// <summary>
         /// Gets or sets a WMO lod offsets.
         /// </summary>
-        public float[] WmoLodOffset { get; set; } = new float[3];
+        public uint[] WmoLodOffset { get; set; } = new uint[3];
 
         /// <summary>
         /// Gets or sets a WMO lod length.
         /// </summary>
-        public float[] WmoLodLength { get; set; } = new float[3];
+        public uint[] WmoLodLength { get; set; } = new uint[3];
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MLFD"/> class.
@@ -56,24 +56,24 @@ namespace Warcraft.NET.Files.ADT.Chunks.Legion
             using (var br = new BinaryReader(ms))
             {
                 // M2 offsets
-                M2LodOffset[0] = br.ReadSingle();
-                M2LodOffset[1] = br.ReadSingle();
-                M2LodOffset[2] = br.ReadSingle();
+                M2LodOffset[0] = br.ReadUInt32();
+                M2LodOffset[1] = br.ReadUInt32();
+                M2LodOffset[2] = br.ReadUInt32();
 
                 // M2 length
-                M2LodLength[0] = br.ReadSingle();
-                M2LodLength[1] = br.ReadSingle();
-                M2LodLength[2] = br.ReadSingle();
+                M2LodLength[0] = br.ReadUInt32();
+                M2LodLength[1] = br.ReadUInt32();
+                M2LodLength[2] = br.ReadUInt32();
 
                 // Wmo offsets
-                WmoLodOffset[0] = br.ReadSingle();
-                WmoLodOffset[1] = br.ReadSingle();
-                WmoLodOffset[2] = br.ReadSingle();
+                WmoLodOffset[0] = br.ReadUInt32();
+                WmoLodOffset[1] = br.ReadUInt32();
+                WmoLodOffset[2] = br.ReadUInt32();
 
                 // Wmo length
-                WmoLodLength[0] = br.ReadSingle();
-                WmoLodLength[1] = br.ReadSingle();
-                WmoLodLength[2] = br.ReadSingle();
+                WmoLodLength[0] = br.ReadUInt32();
+                WmoLodLength[1] = br.ReadUInt32();
+                WmoLodLength[2] = br.ReadUInt32();
             }
         }
 

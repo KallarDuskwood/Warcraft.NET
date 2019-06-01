@@ -1,8 +1,8 @@
-using TerrainObj0WoD = Warcraft.NET.Files.ADT.Terrain.WoD.TerrainObj0;
+using TerrainObj0Legion = Warcraft.NET.Files.ADT.Terrain.Legion.TerrainObj0;
 
 namespace Warcraft.NET.Files.ADT.Terrain.BfA
 {
-    public class TerrainObj0 : TerrainObj0WoD
+    public class TerrainObj0 : TerrainObj0Legion
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="BfA.TerrainObj0"/> class.
