@@ -57,7 +57,7 @@ namespace Warcraft.NET.Files.ADT.Terrain
                         .GetType()
                         .GetExtensionMethod(Assembly.GetExecutingAssembly(), "ReadIFFChunk")
                         .MakeGenericMethod(chunkPropertie.PropertyType)
-                        .Invoke(null, new[] { br });
+                        .Invoke(null, new object[] { br, false });
 
                         chunkPropertie.SetValue(this, chunk);
                     }
@@ -88,7 +88,7 @@ namespace Warcraft.NET.Files.ADT.Terrain
         /// Serializes the current object into a byte array.
         /// </summary>
         /// <returns>The serialized object.</returns>
-        public byte[] Serialize()
+        public byte[] Serialize(long offset = 0)
         {
             using (var ms = new MemoryStream())
             using (var bw = new BinaryWriter(ms))
@@ -107,7 +107,7 @@ namespace Warcraft.NET.Files.ADT.Terrain
                         .GetType()
                         .GetExtensionMethod(Assembly.GetExecutingAssembly(), "WriteIFFChunk")
                         .MakeGenericMethod(chunkPropertie.PropertyType)
-                        .Invoke(null, new[] { bw, chunkPropertie.GetValue(this) });
+                        .Invoke(null, new object[] { bw, chunkPropertie.GetValue(this), false });
                     }
                 }
 
