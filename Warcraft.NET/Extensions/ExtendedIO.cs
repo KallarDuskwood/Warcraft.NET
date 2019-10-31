@@ -6,12 +6,42 @@ using System.Text;
 using Warcraft.NET.Files.Structures;
 using System.Collections.Generic;
 using Warcraft.NET.Exceptions;
+using Warcraft.NET.Files.MDX.Chunks;
 
 namespace Warcraft.NET.Extensions
 {
     public static class ExtendedIO
     {
         #region Reader
+
+        /// <summary>
+        /// Reads a String at pos with length. Resets reader to before position.
+        /// </summary>
+        /// <returns>The null terminated string.</returns>
+        /// <param name="binaryReader">The reader.</param>
+        public static string ReadMD20String(this BinaryReader binaryReader,UInt32 length, UInt32 pos)
+        {
+            var sb = new StringBuilder();
+
+            var origpos = binaryReader.BaseStream.Position;
+            binaryReader.BaseStream.Position = pos;
+
+
+            for(int i = 0; i < length; i++)
+            {
+                char c = binaryReader.ReadChar();
+
+                if(c != '\0')
+                {
+                    sb.Append(c);
+                }
+                
+            }
+
+            binaryReader.BaseStream.Position = origpos;
+            return sb.ToString();
+        }
+
         /// <summary>
         /// Reads a standard null-terminated string from the data stream.
         /// </summary>
@@ -208,16 +238,27 @@ namespace Warcraft.NET.Extensions
                 throw new ChunkSignatureNotFoundException($"Chuck \"{chunk.GetSignature()}\" not found.");
             }
 
-            string chunkSignature = reader.ReadBinarySignature();
-            var chunkSize = reader.ReadUInt32();
-            var chunkData = reader.ReadBytes((int)chunkSize);
+            if(chunk.GetType() == typeof(MD20)){
 
-            if (chunk.GetSignature() != chunkSignature)
+                //string Signature = reader.ReadBinarySignature(); // MD20
+
+                // Just pass the whole MD20 Chunk
+                chunk.LoadBinaryData(reader.ReadBytes((int)reader.BaseStream.Length));
+
+                
+            }else
             {
-                throw new InvalidChunkSignatureException($"An unknown chunk with the signature \"{chunkSignature}\" was read.");
-            }
+                string chunkSignature = reader.ReadBinarySignature();
+                var chunkSize = reader.ReadUInt32();
+                var chunkData = reader.ReadBytes((int)chunkSize);
 
-            chunk.LoadBinaryData(chunkData);
+                if (chunk.GetSignature() != chunkSignature)
+                {
+                    throw new InvalidChunkSignatureException($"An unknown chunk with the signature \"{chunkSignature}\" was read.");
+                }
+
+                chunk.LoadBinaryData(chunkData);
+            }
 
             return chunk;
         }

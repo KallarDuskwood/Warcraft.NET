@@ -10,6 +10,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Files\MDX\Chunks\Legion\" />
+    <Folder Include="Files\MDX\Chunks\Wotlk\" />
+    <Folder Include="Files\MDX\Structures\" />
     <Folder Include="Files\WMO\Flags\BfA\" />
     <Folder Include="Files\WMO\Flags\WoD\" />
   </ItemGroup>

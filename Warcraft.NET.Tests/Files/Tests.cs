@@ -5,11 +5,23 @@ using WoDWMO = Warcraft.NET.Files.WMO.WorldMapObject.WoD.WorldMapObjectRoot;
 using LegionWMO = Warcraft.NET.Files.WMO.WorldMapObject.Legion.WorldMapObjectRoot;
 using BfAWMO = Warcraft.NET.Files.WMO.WorldMapObject.BfA.WorldMapObjectRoot;
 
+using WotlkM2 = Warcraft.NET.Files.MDX.MDX.Wotlk.MDXRoot;
+using System;
+
 namespace Warcraft.NET.Tests.Files
 {
     [TestClass]
     public class Tests
     {
+
+        //M2
+         
+        private static string WotlkM2Path = @"Resources/M2/HFjord_CoastRock_04.M2";
+        private static string WotlkWrittenM2Path = @"Resources/M2/HFjord_CoastRock_04.new.M2";
+        public static WotlkM2 WotlkM2;
+        public static WotlkM2 WotlkWrittenM2;
+
+        // WMO
         // Wotlk
         private static string WotlkWMOPath = @"Resources/WMO/prisonHQ_Redridge.wmo";
         private static string WotlkWrittenWMOPath = @"Resources/WMO/prisonHQ_Redridge.new.wmo";
@@ -37,6 +49,13 @@ namespace Warcraft.NET.Tests.Files
         [AssemblyInitialize]
         public static void Initialize(TestContext tc)
         {
+
+            //M2
+            var mdx1 = new WotlkM2(File.ReadAllBytes(WotlkM2Path));
+            WotlkM2 = mdx1;
+
+
+            // WMO
             // Wotlk
             var wmo1 = new WotlkWMO(File.ReadAllBytes(WotlkWMOPath));
             WotlkWMO = wmo1;
