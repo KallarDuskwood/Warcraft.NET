@@ -16,8 +16,8 @@ namespace Warcraft.NET.Tests.Files
 
         //M2
          
-        private static string WotlkM2Path = @"Resources/M2/HFjord_CoastRock_04.M2";
-        private static string WotlkWrittenM2Path = @"Resources/M2/HFjord_CoastRock_04.new.M2";
+        private static string WotlkM2Path = @"Resources/M2/Bear.M2";
+        private static string WotlkWrittenM2Path = @"Resources/M2/Bear.new.M2";
         public static WotlkM2 WotlkM2;
         public static WotlkM2 WotlkWrittenM2;
 

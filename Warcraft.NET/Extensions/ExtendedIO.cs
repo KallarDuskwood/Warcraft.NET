@@ -13,7 +13,6 @@ namespace Warcraft.NET.Extensions
     public static class ExtendedIO
     {
         #region Reader
-
         /// <summary>
         /// Reads a String at pos with length. Resets reader to before position.
         /// </summary>
