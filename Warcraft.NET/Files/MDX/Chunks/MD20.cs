@@ -45,6 +45,23 @@ namespace Warcraft.NET.Files.MDX.Chunks
 
         public List<M2Bone> Bones { get; set; } = new List<M2Bone>();
 
+        public List<Int16> KeyBoneLookup { get; set; } = new List<Int16>();
+
+        public UInt32 NumberSkinProfiles { get; set; }
+
+        public List<M2Color> Color { get; set; } = new List<M2Color>();
+
+        public List<M2Texture> Texture { get; set; } = new List<M2Texture>();
+        public List<M2Track> TextureWeights { get; set; } = new List<M2Track>();
+        public List<M2TextureTransform> UvAnimations { get; set; } = new List<M2TextureTransform>();
+        public List<Int16> TextureReplacements { get; set; } = new List<Int16>();
+        public List<M2Material> Materials { get; set; } = new List<M2Material>();
+        public List<UInt16> BoneLookups { get; set; } = new List<UInt16>();
+        public List<UInt16> TextureLookups { get; set; } = new List<UInt16>();
+        public List<UInt16> TextureUnits { get; set; } = new List<UInt16>();
+        public List<UInt16> TextureWeightsLookups { get; set; } = new List<UInt16>();
+        public List<Int16> UvAnimationLookups { get; set; } = new List<Int16>();
+        
 
         /// <inheritdoc/>
         public string GetSignature()
@@ -109,8 +126,8 @@ namespace Warcraft.NET.Files.MDX.Chunks
                     seq.MinimumRepetitions = br.ReadUInt32();
                     seq.MaximumRepetitions = br.ReadUInt32();
                     seq.BlendTime = br.ReadUInt32();
-                    seq.BoundsMinimumExtend = new M2Vector(br.ReadSingle(), br.ReadSingle(), br.ReadSingle());
-                    seq.BoundsMaximumExtend = new M2Vector(br.ReadSingle(), br.ReadSingle(), br.ReadSingle());
+                    seq.BoundsMinimumExtend = new C3Vector(br.ReadSingle(), br.ReadSingle(), br.ReadSingle());
+                    seq.BoundsMaximumExtend = new C3Vector(br.ReadSingle(), br.ReadSingle(), br.ReadSingle());
                     seq.BoundRadius = br.ReadSingle();
                     seq.NextAnimation = br.ReadInt16();
                     seq.aliasNext = br.ReadUInt16();
@@ -150,175 +167,225 @@ namespace Warcraft.NET.Files.MDX.Chunks
                     //translation
 
                     M2Track translation = new M2Track();
+                    translation.readM2Track(br);
+                    bone.translation = translation;
 
-                    translation.InterpolationType = br.ReadUInt16();
-                    translation.GlobalSequence = br.ReadInt16();
+                    // rotation
+                    M2Track rotation = new M2Track();
+                    rotation.readM2Track(br);
+                    bone.rotation = rotation;
+
+                    // Scale
+                    M2Track scale = new M2Track();
+                    scale.readM2Track(br);
+                    bone.scale = scale;
+
+                    bone.pivot = new C3Vector(br.ReadUInt32(), br.ReadUInt32(), br.ReadUInt32());
+
+                    Bones.Add(bone);
+
+                }
+                br.BaseStream.Position = headerpos;
+
+                // key_bone_lookup
+                count = br.ReadUInt32();
+                offset = br.ReadUInt32();
+                headerpos = br.BaseStream.Position;
+                br.BaseStream.Position = offset;
+                for(int i = 0; i < count; i++)
+                {
+                    KeyBoneLookup.Add(br.ReadInt16());
+                }
+                br.BaseStream.Position = headerpos;
+
+                // Vetices
+                count = br.ReadUInt32();
+                offset = br.ReadUInt32();
+                headerpos = br.BaseStream.Position;
+                br.BaseStream.Position = offset;
+                for (int i = 0; i < count; i++)
+                {
+                    M2Vertex temp = new M2Vertex();
+
+                    temp.Pos = new C3Vector(br.ReadSingle(), br.ReadSingle(), br.ReadSingle());
+                    for(int a = 0; a < 4; a++)
+                    {
+                        temp.BoneWeights.Add(br.ReadByte());
+                    }
+                    for (int a = 0; a < 4; a++)
+                    {
+                        temp.BoneIndices.Add(br.ReadByte());
+                    }
+                    temp.Normal = new C3Vector(br.ReadSingle(), br.ReadSingle(), br.ReadSingle());
+                    temp.TexCords.Add(new C2Vector(br.ReadSingle(), br.ReadSingle()));
+                    temp.TexCords.Add(new C2Vector(br.ReadSingle(), br.ReadSingle()));
+
+                }
+                br.BaseStream.Position = headerpos;
+
+                // Number of Skin profiles
+                NumberSkinProfiles = br.ReadUInt32();
+
+                // Colors
+                count = br.ReadUInt32();
+                offset = br.ReadUInt32();
+                headerpos = br.BaseStream.Position;
+                br.BaseStream.Position = offset;
+                for (int i = 0; i < count; i++)
+                {
+                    M2Color temp = new M2Color();
+
+                    // Color
+                    M2Track color = new M2Track();
+                    color.readM2Track(br);
+                    temp.Color = color;
+
+                    // Alpha
+                    M2Track alpha = new M2Track();
+                    alpha.readM2Track(br);
+                    temp.Alpha = alpha;
+
+                    Color.Add(temp);
+
+                }
+                br.BaseStream.Position = headerpos;
+
+                // Textures
+                count = br.ReadUInt32();
+                offset = br.ReadUInt32();
+                headerpos = br.BaseStream.Position;
+                br.BaseStream.Position = offset;
+                for (int i = 0; i < count; i++)
+                {
+                    M2Texture temp = new M2Texture();
+
+                    temp.Type = br.ReadUInt32();
+                    temp.Flags = br.ReadUInt32();
 
                     UInt32 tCount = br.ReadUInt32();
                     UInt32 tOffset = br.ReadUInt32();
                     long tHeaderpos = br.BaseStream.Position;
                     br.BaseStream.Position = tOffset;
 
-                    
+                    temp.Filename = "";
                     for (int a = 0; a < tCount; a++)
                     {
-                        List<UInt32> timestamps = new List<UInt32>();
-
-                        UInt32 ttCount = br.ReadUInt32();
-                        UInt32 ttOffset = br.ReadUInt32();
-                        long ttHeaderpos = br.BaseStream.Position;
-                        br.BaseStream.Position = ttOffset;
-                        for (int b = 0; b < ttCount; b++)
-                        {
-                            timestamps.Add(br.ReadUInt32());
-                        }
-                        br.BaseStream.Position = ttHeaderpos;
-
-                        translation.Timestamps.Add(timestamps);
+                        temp.Filename += br.ReadChar();
                     }
                     br.BaseStream.Position = tHeaderpos;
 
-                    tCount = br.ReadUInt32();
-                    tOffset = br.ReadUInt32();
-                    tHeaderpos = br.BaseStream.Position;
-                    br.BaseStream.Position = tOffset;
+                    Texture.Add(temp);
+                }
+                br.BaseStream.Position = headerpos;
 
-                    for (int a = 0; a < tCount; a++)
-                    {
-                        List<UInt32> keys = new List<UInt32>();
+                // Texture Weights 
+                count = br.ReadUInt32();
+                offset = br.ReadUInt32();
+                headerpos = br.BaseStream.Position;
+                br.BaseStream.Position = offset;
+                for (int i = 0; i < count; i++)
+                {
+                   
+                    M2Track temp = new M2Track();
+                    temp.readM2Track(br);
+                    TextureWeights.Add(temp);
 
-                        UInt32 ttCount = br.ReadUInt32();
-                        UInt32 ttOffset = br.ReadUInt32();
-                        long ttHeaderpos = br.BaseStream.Position;
-                        br.BaseStream.Position = ttOffset;
-                        for (int b = 0; b < ttCount; b++)
-                        {
-                            keys.Add(br.ReadUInt32());
-                        }
-                        br.BaseStream.Position = ttHeaderpos;
+                }
+                br.BaseStream.Position = headerpos;
 
-                        translation.Keys.Add(keys);
-                    }
-                    br.BaseStream.Position = tHeaderpos;
+                // UV Animations
+                count = br.ReadUInt32();
+                offset = br.ReadUInt32();
+                headerpos = br.BaseStream.Position;
+                br.BaseStream.Position = offset;
+                for (int i = 0; i < count; i++)
+                {
+                    M2TextureTransform temp = new M2TextureTransform();
 
-                    bone.translation = translation;
-
-                    // rotation
+                    M2Track translation = new M2Track();
+                    translation.readM2Track(br);
+                    temp.Translation = translation;
 
                     M2Track rotation = new M2Track();
+                    rotation.readM2Track(br);
+                    temp.Rotation = rotation;
 
-                    rotation.InterpolationType = br.ReadUInt16();
-                    rotation.GlobalSequence = br.ReadInt16();
+                    M2Track scaling = new M2Track();
+                    scaling.readM2Track(br);
+                    temp.Scaling = scaling;
 
-                    tCount = br.ReadUInt32();
-                    tOffset = br.ReadUInt32();
-                    tHeaderpos = br.BaseStream.Position;
-                    br.BaseStream.Position = tOffset;
+                    UvAnimations.Add(temp);
+                }
+                br.BaseStream.Position = headerpos;
 
+                // Texture Replacements
+                count = br.ReadUInt32();
+                offset = br.ReadUInt32();
+                headerpos = br.BaseStream.Position;
+                br.BaseStream.Position = offset;
+                for (int i = 0; i < count; i++)
+                {
+                    TextureReplacements.Add(br.ReadInt16());
+                }
+                br.BaseStream.Position = headerpos;
 
-                    for (int a = 0; a < tCount; a++)
-                    {
-                        List<UInt32> timestamps = new List<UInt32>();
+                // Materials
+                count = br.ReadUInt32();
+                offset = br.ReadUInt32();
+                headerpos = br.BaseStream.Position;
+                br.BaseStream.Position = offset;
+                for (int i = 0; i < count; i++)
+                {
+                    M2Material temp = new M2Material();
 
-                        UInt32 ttCount = br.ReadUInt32();
-                        UInt32 ttOffset = br.ReadUInt32();
-                        long ttHeaderpos = br.BaseStream.Position;
-                        br.BaseStream.Position = ttOffset;
-                        for (int b = 0; b < ttCount; b++)
-                        {
-                            timestamps.Add(br.ReadUInt32());
-                        }
-                        br.BaseStream.Position = ttHeaderpos;
+                    temp.Flags = br.ReadUInt16();
+                    temp.BlendMode = br.ReadUInt16();
 
-                        rotation.Timestamps.Add(timestamps);
-                    }
-                    br.BaseStream.Position = tHeaderpos;
+                    Materials.Add(temp);
+                }
+                br.BaseStream.Position = headerpos;
 
-                    tCount = br.ReadUInt32();
-                    tOffset = br.ReadUInt32();
-                    tHeaderpos = br.BaseStream.Position;
-                    br.BaseStream.Position = tOffset;
+                // Bone Lookups
+                count = br.ReadUInt32();
+                offset = br.ReadUInt32();
+                headerpos = br.BaseStream.Position;
+                br.BaseStream.Position = offset;
+                for (int i = 0; i < count; i++)
+                {
+                    BoneLookups.Add(br.ReadUInt16());
+                }
+                br.BaseStream.Position = headerpos;
 
-                    for (int a = 0; a < tCount; a++)
-                    {
-                        List<UInt32> keys = new List<UInt32>();
+                // Texture Units
+                count = br.ReadUInt32();
+                offset = br.ReadUInt32();
+                headerpos = br.BaseStream.Position;
+                br.BaseStream.Position = offset;
+                for (int i = 0; i < count; i++)
+                {
+                    TextureUnits.Add(br.ReadUInt16());
+                }
+                br.BaseStream.Position = headerpos;
 
-                        UInt32 ttCount = br.ReadUInt32();
-                        UInt32 ttOffset = br.ReadUInt32();
-                        long ttHeaderpos = br.BaseStream.Position;
-                        br.BaseStream.Position = ttOffset;
-                        for (int b = 0; b < ttCount; b++)
-                        {
-                            keys.Add(br.ReadUInt32());
-                        }
-                        br.BaseStream.Position = ttHeaderpos;
+                // Texture Weights Lookups
+                count = br.ReadUInt32();
+                offset = br.ReadUInt32();
+                headerpos = br.BaseStream.Position;
+                br.BaseStream.Position = offset;
+                for (int i = 0; i < count; i++)
+                {
+                    TextureWeightsLookups.Add(br.ReadUInt16());
+                }
+                br.BaseStream.Position = headerpos;
 
-                        translation.Keys.Add(keys);
-                    }
-                    br.BaseStream.Position = tHeaderpos;
-
-                    bone.rotation = rotation;
-
-                    // Scale
-
-                    M2Track scale = new M2Track();
-
-                    scale.InterpolationType = br.ReadUInt16();
-                    scale.GlobalSequence = br.ReadInt16();
-
-                    tCount = br.ReadUInt32();
-                    tOffset = br.ReadUInt32();
-                    tHeaderpos = br.BaseStream.Position;
-                    br.BaseStream.Position = offset;
-
-
-                    for (int a = 0; a < tCount; a++)
-                    {
-                        List<UInt32> timestamps = new List<UInt32>();
-
-                        UInt32 ttCount = br.ReadUInt32();
-                        UInt32 ttOffset = br.ReadUInt32();
-                        long ttHeaderpos = br.BaseStream.Position;
-                        br.BaseStream.Position = ttOffset;
-                        for (int b = 0; b < ttCount; b++)
-                        {
-                            timestamps.Add(br.ReadUInt32());
-                        }
-                        br.BaseStream.Position = ttHeaderpos;
-
-                        scale.Timestamps.Add(timestamps);
-                    }
-                    br.BaseStream.Position = tHeaderpos;
-
-                    tCount = br.ReadUInt32();
-                    tOffset = br.ReadUInt32();
-                    tHeaderpos = br.BaseStream.Position;
-                    br.BaseStream.Position = tOffset;
-
-                    for (int a = 0; a < tCount; a++)
-                    {
-                        List<UInt32> keys = new List<UInt32>();
-
-                        UInt32 ttCount = br.ReadUInt32();
-                        UInt32 ttOffset = br.ReadUInt32();
-                        long ttHeaderpos = br.BaseStream.Position;
-                        br.BaseStream.Position = ttOffset;
-                        for (int b = 0; b < ttCount; b++)
-                        {
-                            keys.Add(br.ReadUInt32());
-                        }
-                        br.BaseStream.Position = ttHeaderpos;
-
-                        scale.Keys.Add(keys);
-                    }
-                    br.BaseStream.Position = tHeaderpos;
-
-                    bone.scale = scale;
-
-                    bone.pivot = new M2Vector(br.ReadUInt32(), br.ReadUInt32(), br.ReadUInt32());
-
-                    Bones.Add(bone);
-
+                // Animation Lookups
+                count = br.ReadUInt32();
+                offset = br.ReadUInt32();
+                headerpos = br.BaseStream.Position;
+                br.BaseStream.Position = offset;
+                for (int i = 0; i < count; i++)
+                {
+                    UvAnimationLookups.Add(br.ReadInt16());
                 }
                 br.BaseStream.Position = headerpos;
 

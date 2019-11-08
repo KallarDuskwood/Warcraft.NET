@@ -15,7 +15,7 @@ namespace Warcraft.NET.Files.MDX.Structures
         public M2Track translation { get; set; }
         public M2Track rotation { get; set; }
         public M2Track scale { get; set; }
-        public M2Vector pivot { get; set; }
+        public C3Vector pivot { get; set; }
 
         public M2Bone()
         {

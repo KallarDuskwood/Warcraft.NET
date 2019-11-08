@@ -18,8 +18,8 @@ namespace Warcraft.NET.Files.MDX.Structures
        public UInt32 MinimumRepetitions { get; set; }
        public UInt32 MaximumRepetitions { get; set; }
        public UInt32 BlendTime { get; set; }
-       public M2Vector BoundsMinimumExtend { get; set; }
-       public M2Vector BoundsMaximumExtend { get; set; }
+       public C3Vector BoundsMinimumExtend { get; set; }
+       public C3Vector BoundsMaximumExtend { get; set; }
        public float BoundRadius { get; set; }
        public Int16 NextAnimation { get; set; }
        public UInt16 aliasNext { get; set; }
